@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyAdMarket</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body { font-family: sans-serif; background-color: #1c1c1c; color: white; padding: 20px; text-align: center; }
+        .card { background: #2c2c2c; padding: 20px; border-radius: 15px; margin-bottom: 20px; border: 1px solid #444; }
+        input { width: 80%; padding: 10px; margin: 10px 0; border-radius: 8px; border: none; }
+        button { background: #28a745; color: white; padding: 12px 24px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
+        .buy-btn { background: #0088cc; }
+    </style>
+</head>
+<body>
+    <h1>🚀 MyAdMarket</h1>
+    
+    <div class="card">
+        <h2>Tech News Channel</h2>
+        <p>50k Subscribers</p>
+        <p style="color: #0088cc; font-size: 20px;">$25.00</p>
+        <button class="buy-btn">Buy This Space</button>
+    </div>
+
+    <div class="card">
+        <h3>📢 Channel Owners</h3>
+        <input type="text" id="channelInput" placeholder="Channel Link (e.g. @MyChannel)">
+        <input type="number" id="subsInput" placeholder="Number of Subscribers">
+        <button onclick="submitForm()">Submit for Approval</button>
+    </div>
+
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+
+        function submitForm() {
+            const channel = document.getElementById('channelInput').value;
+            const subs = document.getElementById('subsInput').value;
+
+            if(!channel || !subs) {
+                alert("Please fill all fields");
+                return;
+            }
+
+            const data = {
+                action: "new_submission",
+                channel: channel,
+                subscribers: subs
+            };
+
+            // This sends data to the bot
+            tg.sendData(JSON.stringify(data));
+            
+            // This closes the Mini App
+            tg.close();
+        }
+    </script>
+</body>
+</html>
