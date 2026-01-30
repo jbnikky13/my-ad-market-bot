@@ -1,0 +1,13 @@
+# MyAdMarket - Verified Telegram Marketplace
+
+A Telegram Mini App marketplace where users can buy and sell ad spaces.
+
+## 🚀 Features
+- Real-Time Verification: Uses the Telegram API to verify channel handles and subscriber counts.
+- Two-Sided Flow: Seamless data transfer from the Mini App frontend to the Bot backend.
+- Vercel Deployment: Frontend hosted on Vercel for 99.9% uptime.
+
+## 🛠️ Tech Stack
+- Frontend: HTML5, CSS3, JavaScript (Telegram WebApp SDK)
+- Backend: Node.js (node-telegram-bot-api)
+- Deployment: Vercel (Frontend), Render/Railway (Backend)
