@@ -4,7 +4,7 @@ const bot = new TelegramBot(token, {polling: true});
 
 // Handle the /start command or verification logic
 bot.onText(/\/start/, (msg) => {
-  const handle = "@your_channel_handle"; // Make sure this is correct
+  const handle = "@TheNameOfYourMarketChannel"; // Make sure this is correct
 
   bot.getChat(handle).then(function(chat) {
     bot.getChatMemberCount(handle).then(function(count) {
@@ -32,3 +32,4 @@ http.createServer((req, res) => {
 }).listen(process.env.PORT || 3000, "0.0.0.0");
 
 console.log("Status: ONLINE 🚀");
+
