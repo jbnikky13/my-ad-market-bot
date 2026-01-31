@@ -4,7 +4,7 @@ const http = require('http');
 const token = '8408610478:AAFYlXwQI7bzraVLjJRPFOvfMTOiAsWqcUM';
 const bot = new TelegramBot(token, { polling: true });
 
-// Mock database to store listings and temporary user states
+// Data storage
 let listings = []; 
 let userState = {}; 
 
@@ -19,64 +19,69 @@ bot.onText(/\/start/, (msg) => {
             resize_keyboard: true
         }
     };
-    bot.sendMessage(msg.chat.id, "Welcome to Myadmarket.\n\nThe secure marketplace for Telegram advertising.", { parse_mode: 'Markdown', ...opts });
+    bot.sendMessage(msg.chat.id, "Welcome to Myadmarket.\nThe secure marketplace for Telegram advertising.", { parse_mode: 'Markdown', ...opts });
 });
 
-// 2. LOGIC HANDLER
+// 2. MESSAGE LOGIC
 bot.on('message', async (msg) => {
     const chatId = msg.chat.id;
+    const text = msg.text;
 
-    // A. START LISTING FLOW
-    if (msg.text === "📢 List My Channel") {
-        bot.sendMessage(chatId, "To verify ownership, please FORWARD any message from your channel to this bot.");
+    // Handle Buttons
+    if (text === "📢 List My Channel") {
         userState[chatId] = { step: 'awaiting_forward' };
+        bot.sendMessage(chatId, "To verify ownership, please FORWARD any message from your channel to this bot.");
+        return;
     }
 
-    // B. HANDLE FORWARDED MESSAGE (Ownership & Data Fetch)
-    else if (msg.forward_from_chat && msg.forward_from_chat.type === 'channel' && userState[chatId]?.step === 'awaiting_forward') {
-        const channel = msg.forward_from_chat;
-        try {
-            const count = await bot.getChatMemberCount(channel.id);
-            // Temporarily store channel data
-            userState[chatId] = { 
-                step: 'awaiting_price', 
-                tempData: { id: channel.id, title: channel.title, handle: channel.username, subs: count } 
-            };
-            bot.sendMessage(chatId, `✅ Verified: ${channel.title}**\nSubscribers: ${count}\n\n**Next Step: Please type the price for a 24h ad placement (e.g., $50 or 10 TON).`);
-        } catch (e) {
-            bot.sendMessage(chatId, "❌ Error. Ensure the bot is an admin in the channel.");
+    if (text === "🛒 Browse Ads") {
+        if (listings.length === 0) {
+            bot.sendMessage(chatId, "The marketplace is currently empty.");
+        } else {
+            let menu = "📂 **Verified Marketplace Listings:**\n\n";
+            listings.forEach((l, i) => {
+                menu += ${i + 1}. **${l.title}** (@${l.handle})\n📊 Subs: ${l.subs} | 💰 Price: ${l.price}\n\n;
+            });
+            bot.sendMessage(chatId, menu, { parse_mode: 'Markdown' });
         }
+        return;
     }
 
-    // C. HANDLE PRICE INPUT
-    else if (userState[chatId]?.step === 'awaiting_price' && msg.text) {
-        const price = msg.text;
-        const finalData = { ...userState[chatId].tempData, price: price, owner: chatId };
-        
-        listings.push(finalData); // Save to "Marketplace"
-        delete userState[chatId]; // Clear state
-        
-        bot.sendMessage(chatId, `🚀 Success! Your channel is listed at ${price}.\nAdvertisers can now find you in the marketplace.`);
+    if (text === "⚖️ Active Escrow Deals") {
+        bot.sendMessage(chatId, "🔒 **Escrow Protection**\nStatus: Monitoring network...\n\nNo active deals found.");
+        return;
     }
 
-    // D. BROWSE FLOW (Advertiser Side)
-    else if (msg.text === "🛒 Browse Ads") {
-        if (listings.length === 0) return bot.sendMessage(chatId, "The marketplace is empty.");
-        
-        let menu = "📂 **Verified Marketplace Listings:**\n\n";
-        listings.forEach((l, i) => {
-            menu += ${i + 1}. **${l.title}** (@${l.handle})\n📊 Subs: ${l.subs} | 💰 Price: ${l.price}\n\n;
-        });
-        menu += "Reply with a channel number to initiate a Secure Escrow Payment.";
-        bot.sendMessage(chatId, menu, { parse_mode: 'Markdown' });
-    }
-
-    // E. ESCROW STATUS
-    else if (msg.text === "⚖️ Active Escrow Deals") {
-        bot.sendMessage(chatId, "🔒 **Escrow Protection**\nStatus: Bot is monitoring network for ad confirmations.\n\n*Note: This simulation tracks when an ad is live before releasing funds.*");
+    // Handle Logic Steps
+    if (userState[chatId]) {
+        // Step 1: Verification via Forward
+        if (userState[chatId].step === 'awaiting_forward' && msg.forward_from_chat) {
+            const channel = msg.forward_from_chat;
+            try {
+                const count = await bot.getChatMemberCount(channel.id);
+                userState[chatId] = { 
+                    step: 'awaiting_price', 
+                    tempData: { id: channel.id, title: channel.title, handle: channel.username, subs: count } 
+                };
+                bot.sendMessage(chatId, `✅ **Verified: ${channel.title}**\n\nType your price (e.g., 50 TON):`);
+            } catch (e) {
+                bot.sendMessage(chatId, "❌ Please make sure the bot is an admin in the channel first.");
+            }
+        } 
+        // Step 2: Setting the Price
+        else if (userState[chatId].step === 'awaiting_price' && text && !text.startsWith('/')) {
+            const finalData = { ...userState[chatId].tempData, price: text, owner: chatId };
+            listings.push(finalData);
+            delete userState[chatId];
+            bot.sendMessage(chatId, `🚀 Success! Your channel is now live in the marketplace.`);
+        }
     }
 });
 
-// 3. RENDER HEALTH CHECK
-http.createServer((req, res) => { res.writeHead(200); res.end("Alive"); }).listen(process.env.PORT || 3000, "0.0.0.0");
-console.log("Competition Bot: FULL FLOW ONLINE 🚀");
+// 3. HEALTH CHECK FOR RENDER (Keep this to avoid 409/Port errors)
+http.createServer((req, res) => {
+    res.writeHead(200);
+    res.end("Bot is Alive");
+}).listen(process.env.PORT || 3000, "0.0.0.0");
+
+console.log("Status: ONLINE 🚀");
