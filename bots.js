@@ -46,16 +46,17 @@ bot.on('message', function(msg) {
                     console.log("Channel: " + chat.title + " (" + handle + ")");
                     console.log("Verified Subs: " + count);
                     console.log("----------------------------\n");
-
-  }).catch(function(err) {
+}).catch(function(err) {
       bot.sendMessage(msg.chat.id, "❌ Error: Could not get subscriber count.");
     });
   }).catch(function(err) {
     bot.sendMessage(msg.chat.id, "❌ **Verification Failed**\n\nI couldn't find the channel.");
   });
+});
+
 // --- RENDER HEALTH CHECK SERVER ---
 const http = require('http');
 http.createServer((req, res) => {
   res.writeHead(200);
   res.end("Bot is Alive");
-}).listen(process.env.PORT || 3000, "0.0.0.0");
+}).listen(process.env.PORT || 3000, "0.0.0.0");                    
