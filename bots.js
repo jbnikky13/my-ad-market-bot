@@ -1,7 +1,7 @@
 const TelegramBot = require('node-telegram-bot-api');
 
 // Your Telegram Bot Token
-const token = 'process.env.BOT_TOKEN';
+const token = process.env.BOT_TOKEN;
 
 const bot = new TelegramBot(token, {
     polling: true,
@@ -14,7 +14,7 @@ const webAppUrl = "https://my-ad-market-bvo19ivoy-nichole-godams-projects.vercel
 console.log("--- MyAdMarket: Verified Mode ---");
 console.log("Status: ONLINE 🚀");
 
-// 1. Handle the /start command
+// 1. Handle  the /start command
 bot.onText(/\/start/, function(msg) {
     bot.sendMessage(msg.chat.id, "Welcome to MyAdMarket! Browse or list your channel below:", {
         reply_markup: {
@@ -57,3 +57,4 @@ bot.on('message', function(msg) {
     }
 
 });
+
