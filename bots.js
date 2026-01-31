@@ -54,9 +54,12 @@ bot.on('message', function(msg) {
                 bot.sendMessage(msg.chat.id, "❌ **Verification Failed**\n\nI couldn't find the channel \"" + handle + "\". Please ensure the channel is Public!");
             });
         }
-    }
+    }}); // This closes the bot.getChatMemberCount
+  }); // This closes the bot.onText
+}); // This closes any other open blocks
 const http = require('http');
 http.createServer((req, res) => {
   res.writeHead(200);
   res.end("Bot is Alive");
 }).listen(process.env.PORT || 3000, "0.0.0.0");
+
