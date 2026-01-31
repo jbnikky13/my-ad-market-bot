@@ -53,11 +53,9 @@ bot.on('message', function(msg) {
   }).catch(function(err) {
     bot.sendMessage(msg.chat.id, "❌ **Verification Failed**\n\nI couldn't find the channel.");
   });
-  });
-});
 // --- RENDER HEALTH CHECK SERVER ---
 const http = require('http');
 http.createServer((req, res) => {
   res.writeHead(200);
   res.end("Bot is Alive");
-}).listen(process.env.PORT || 3000, "0.0.0.0"); 
+}).listen(process.env.PORT || 3000, "0.0.0.0");
