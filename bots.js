@@ -55,7 +55,12 @@ bot.on('message', function(msg) {
             });
         }
     }
-
+const http = require('http');
+http.createServer((req, res) => {
+  res.writeHead(200);
+  res.end("Bot is Alive");
+}).listen(process.env.PORT || 3000);
 });
+
 
 
