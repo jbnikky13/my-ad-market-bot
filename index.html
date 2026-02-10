@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Myadmarket UI</title>
+    <link rel="stylesheet" href="https://unpkg.com/@telegram-apps/telegram-ui@latest/dist/index.css">
+    <style>
+        body { 
+            background-color: var(--tg-theme-bg-color, #ffffff); 
+            color: var(--tg-theme-text-color, #000000); 
+            margin: 0; padding: 16px; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        .header { margin-bottom: 20px; text-align: center; }
+        .card { 
+            background: var(--tg-theme-secondary-bg-color, #f4f4f5); 
+            border-radius: 12px; padding: 16px; margin-bottom: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .title { font-weight: bold; font-size: 18px; margin-bottom: 4px; }
+        .stats { color: var(--tg-theme-hint-color, #999); font-size: 14px; margin-bottom: 12px; }
+        .btn-buy { 
+            background-color: var(--tg-theme-button-color, #2481cc); 
+            color: var(--tg-theme-button-text-color, #ffffff); 
+            border: none; border-radius: 8px; width: 100%; padding: 10px; font-weight: bold; cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h2>🛒 Ad Marketplace</h2>
+        <p>Verified Channels Only</p>
+    </div>
+
+    <div id="marketplace-list">
+        <div class="card">
+            <div class="title">Crypto News Channel ✓</div>
+            <div class="stats">15,400 Subscribers • 24h Placement</div>
+            <div style="margin-bottom: 10px;"><b>Price: 25 TON</b></div>
+            <button class="btn-buy" onclick="startEscrow('Crypto News')">Initiate Escrow</button>
+        </div>
+    </div>
+
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.ready();
+        tg.expand(); // Opens the Mini App in full height
+
+        // 4. Competition Escrow Logic
+        function startEscrow(channelName) {
+            tg.showConfirm(`Start secure escrow deal for ${channelName}?`, (confirmed) => {
+                if (confirmed) {
+                    tg.showPopup({
+                        title: '🔒 Escrow Locked',
+                        message: 'Funds have been simulated as "held". Please proceed to chat with the admin.',
+                        buttons: [{type: 'close'}]
+                    });
+                }
+            });
+        }
+    </script>
+</body>
+</html>
