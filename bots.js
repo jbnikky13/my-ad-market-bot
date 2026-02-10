@@ -4,8 +4,10 @@ const fs = require('fs');
 const path = require('path');
 
 // 1. INITIALIZATION
-const token = '8408610478:AAFYlXwQI7bzraVLjJRPFOvfMTOiAsWqcUM';
+// This tells the bot: "Look for a secret called BOT_TOKEN. If you can't find it, use nothing."
+const token = process.env.BOT_TOKEN; 
 const bot = new TelegramBot(token, { polling: true });
+
 const WEB_APP_URL = "https://my-ad-market-bot.onrender.com";
 
 // 2. POLLING ERROR HANDLER
