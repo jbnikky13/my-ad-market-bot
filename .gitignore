@@ -1,2 +1,19 @@
+# Dependency directories
 node_modules/
+jspm_packages/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables (CRITICAL)
 .env
+
+# OS Metadata
+.DS_Store
+Thumbs.db
+
+# Build directories
+dist/
+build/
