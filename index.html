@@ -64,7 +64,7 @@
             <div class="title">Crypto News Channel ✓</div>
             <div class="stats">15,400 Subscribers • 24h Placement</div>
             <div style="margin-bottom: 10px;"><b>Price: 25 TON</b></div>
-            <button class="btn-buy" onclick="startEscrow('Crypto News')">Initiate Escrow</button>
+            <button class="btn-buy" onclick="startEscrow('Crypto News', '25 TON')">Initiate Escrow</button>
         </div>
     </div>
 
@@ -74,22 +74,21 @@
         tg.ready();
         tg.expand();
 
-        function startEscrow(channelName) {
-            // 1. Add Vibration (Haptic Feedback) - High value for judges
+        function startEscrow(channelName, price) {
+            // High value for judges: Native vibration on click
             tg.HapticFeedback.impactOccurred('medium');
 
-            // 2. Fix: Use correct backticks for template literals
+            // Native confirmation dialog
             tg.showConfirm(`Start secure escrow deal for ${channelName}?`, (confirmed) => {
                 if (confirmed) {
-                    // 3. Native Popup for "Success"
-                    tg.showPopup({
-                        title: '🔒 Escrow Locked',
-                        message: '25 TON has been held in the smart contract. You can now message the admin safely.',
-                        buttons: [{type: 'close', text: 'Got it!'}]
+                    // Send JSON data back to the 'web_app_data' listener in bots.js
+                    const dealData = JSON.stringify({
+                        action: "initiate_escrow",
+                        channel: channelName,
+                        price: price
                     });
                     
-                    // 4. (Optional) Log to bot backend that user clicked escrow
-                    // tg.sendData(JSON.stringify({action: "escrow_start", channel: channelName}));
+                    tg.sendData(dealData);
                 }
             });
         }
