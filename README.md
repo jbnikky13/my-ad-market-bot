@@ -1,8 +1,7 @@
 Myadmarket: Verified Ad Marketplace Bot
 Myadmarket is a decentralized advertising hub designed for the Telegram ecosystem. It connects advertisers with verified channel owners through a secure, escrow-simulated flow and automated subscriber verification.
-🚀 Live Demo
-• Bot User: [@YourBotUsername]
-• WebApp URL: https://my-ad-market-bot.onrender.com (https://my-ad-market-bot.onrender.com/)
+🚀 Live Demo [https://t.me/Myadmarket_bot]
+• WebApp URL: (https://my-ad-market-bot.onrender.com/)
 ✨ Key Features
 • Real-time Channel Verification: Uses the Telegram Bot API (getChatMemberCount) to verify ownership and live subscriber data when a message is forwarded.
 • Secure Escrow Initiation: A native Mini App interface allows advertisers to lock deals, sending structured JSON data back to the bot backend.
