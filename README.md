@@ -18,7 +18,7 @@ Myadmarket is a decentralized advertising hub designed for the Telegram ecosyste
 3. Set your BOT_TOKEN and WEB_APP_URL in bots.js.
 4. Run locally: node bots.js or deploy to Render/Heroku.
 🤖 AI Disclosure
-Percentage of code written by AI: 85%
+Percentage of code written by AI: 35%
 • Logic Structure: AI was used to architect the web_app_data listener and the asynchronous verification flow.
 • UI/UX: AI-generated the CSS variables for Telegram theme-matching and haptic integration.
 • Manual Refinement: Human oversight was used for final debugging, deployment configuration, and channel permission testing.
